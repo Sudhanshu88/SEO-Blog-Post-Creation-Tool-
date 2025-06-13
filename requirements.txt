@@ -1,0 +1,154 @@
+# SEO Blog Post Creation Tool - Setup and Usage Guide
+
+## Requirements
+
+### Python Dependencies
+Create a `requirements.txt` file with the following content:
+
+```txt
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+lxml>=4.9.0
+python-wordpress-xmlrpc>=2.3
+python-dotenv>=0.19.0
+```
+
+### Installation Steps
+
+1. **Clone or download the project**
+```bash
+git clone <your-repo-url>
+cd seo-blog-tool
+```
+
+2. **Create virtual environment**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. **Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+## Configuration
+
+### Environment Variables
+Create a `.env` file in the project root:
+
+```env
+# WordPress Configuration
+WP_URL=https://yourblog.wordpress.com
+WP_USERNAME=your_username
+WP_PASSWORD=your_app_password
+
+# Medium Configuration
+MEDIUM_TOKEN=your_medium_integration_token
+
+# Keyword Research API (Optional)
+GOOGLE_KEYWORD_API_KEY=your_google_api_key
+UBERSUGGEST_API_KEY=your_ubersuggest_api_key
+```
+
+### Publishing Platform Setup
+
+#### WordPress Setup
+1. Go to your WordPress admin dashboard
+2. Navigate to Users → Profile
+3. Scroll down to "Application Passwords"
+4. Create a new application password
+5. Use this password in your configuration
+
+#### Medium Setup
+1. Go to Medium.com → Settings → Integration tokens
+2. Create a new integration token
+3. Add the token to your configuration
+
+## Usage Examples
+
+### Basic Usage
+```python
+from seo_blog_tool import SEOBlogTool
+
+# Initialize the tool
+tool = SEOBlogTool()
+
+# Run with default settings
+results = tool.run_pipeline(
+    category="electronics",
+    max_products=5
+)
+
+# Generate report
+tool.generate_report()
+```
+
+### Advanced Usage with Publishing
+```python
+# Configuration for publishing
+publish_config = {
+    'wordpress': {
+        'url': 'https://yourblog.wordpress.com',
+        'username': 'your_username',
+        'password': 'your_app_password'
+    },
+    'medium': 'your_medium_integration_token'
+}
+
+# Run pipeline with publishing
+results = tool.run_pipeline(
+    category="electronics",
+    max_products=3,
+    publish_config=publish_config
+)
+```
+
+### Custom Categories
+```python
+# Available categories
+categories = ["electronics", "home", "books"]
+
+for category in categories:
+    results = tool.run_pipeline(category=category, max_products=2)
+```
+
+## File Structure
+
+```
+seo-blog-tool/
+├── seo_blog_tool.py          # Main application file
+├── requirements.txt          # Python dependencies
+├── .env                      # Environment variables
+├── README.md                 # This file
+├── blog_posts/              # Generated blog posts
+│   ├── blog_post_20240101_120000.md
+│   └── blog_post_20240101_120500.md
+├── reports/                 # Generated reports
+│   ├── seo_blog_report.html
+│   └── seo_blog_results.csv
+└── logs/                    # Application logs
+    └── seo_blog_tool.log
+```
+
+## Features
+
+### 1. Product Scraping
+- Scrapes best-selling products from e-commerce sites
+- Extracts product details (title, price, rating, reviews)
+- Handles multiple product categories
+- Includes rate limiting and error handling
+
+### 2. SEO Keyword Research
+- Automatically generates relevant keywords from product titles
+- Creates keyword variations and long-tail keywords
+- Simulates keyword metrics (search volume, competition, CPC)
+- Supports integration with keyword research APIs
+
+### 3. Blog Content Generation
+- Creates 150-200 word SEO-optimized blog posts
+- Naturally incorporates target keywords
+- Generates compelling titles and meta descriptions
+- Maintains readability while optimizing for search engines
+
+### 4.
